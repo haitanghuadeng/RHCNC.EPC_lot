@@ -4,7 +4,7 @@
 
 <h2 align="center"><font color="#B0E2FF">这个想法很小，重要的是实现它！</font></h2>
 
- <center>像python一样简单方便，轻量级和快速是物联网世界的一门武术。</center>
+<h4 align="center">像python一样简单方便，轻量级和快速是物联网世界的一门武术。</h4>
 
 <br>
 
