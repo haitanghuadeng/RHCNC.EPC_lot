@@ -14,6 +14,7 @@ hostname = '127.0.0.1'
 username = None
 password = None
 
+
 class MainHandler(RequestHandler):
     def get(self, *args, **kwargs):
         self.render('main.html')
