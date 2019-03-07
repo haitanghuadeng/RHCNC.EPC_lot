@@ -61,7 +61,7 @@ if __name__ == '__main__':
     ip = epcssh.conf_read()
     epcssh.epc_ssh(
         hostname=ip,
-        username='root',
+        username=None,
         password=None,
         user_info=True)
     epcssh.epc_close()
