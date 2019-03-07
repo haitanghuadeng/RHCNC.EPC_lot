@@ -26,13 +26,13 @@ class MainHandler(RequestHandler):
 class ApacheHandler(RequestHandler):
     def get(self):
         epcssh = epc.EpcSsh()
-        server_info = epcssh.epc_ssh(hostname='39.98.58.147', username='root', password='1234.com')
+        server_info = epcssh.epc_ssh(hostname='127.0.0.1', username=None, password=None)
         epcssh.epc_close()
         self.render('Apache.html', server_info=server_info)
 
     def post(self, *args, **kwargs):
         epcssh = epc.EpcSsh()
-        server_info = epcssh.epc_ssh(hostname='39.98.58.147', username='root', password='1234.com')
+        server_info = epcssh.epc_ssh(hostname='127.0.0.1', username=None, password=None)
         epcssh.epc_close()
         self.render('Apache.html', server_info=server_info)
 
