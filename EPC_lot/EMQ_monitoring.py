@@ -31,14 +31,26 @@ class EpcSsh:
         self.client.connect(hostname, port, username, password)
 
         if user_info:
-            while True:
-                user_info = input('>>> ')
-                # if user_info is 'q' or 'quit':
-                #     break
+            if type(user_info) is set:
+                command_info = {}
 
-                stdin, stdout, stderr = self.client.exec_command(user_info)
-                result = stdout.read().decode('utf-8')
-                print(result)
+                for i in user_info:
+                    stdin, stdout, stderr = self.client.exec_command(i)
+                    result = stdout.read().decode('utf-8')
+                    print(result)
+                    command_info[i] = result
+
+                return command_info
+
+            else:
+                while True:
+                    user_info = input('>>> ')
+                    # if user_info is 'q' or 'quit':
+                    #     break
+
+                    stdin, stdout, stderr = self.client.exec_command(user_info)
+                    result = stdout.read().decode('utf-8')
+                    print(result)
 
         else:
             stdin, stdout, stderr = self.client.exec_command('emqx_ctl status')
