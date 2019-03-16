@@ -3,11 +3,11 @@
 
 import os
 import configparser
-import EPC_lot.EPC_Error as emq
+from EPC_error import EPC_Error as Emq
 from collections import Iterable
 
 
-class Colony_Frame_Auto():
+class Colony_Frame_Auto:
 
     def __init__(self):
         self.config = configparser.ConfigParser()
@@ -27,7 +27,7 @@ class Colony_Frame_Auto():
             if os.path.exists(fb) is True:
                 self.config.read(fb)
             else:
-                raise emq.FilepathError(f'未找到该文件！{fb}')
+                raise Emq.FilepathError('未找到该文件！{}'.format(fb))
 
         frame_area_name = [i for i in self.config]
 
@@ -48,28 +48,27 @@ class Colony_Frame_Auto():
 
             for i in master:
 
-                if self.config.has_section(f'{i}') is True:
+                if self.config.has_section(i) is True:
 
                     if i == 'DEFAULT':
                         pass
 
                     else:
-                        print(f"主框架：{i}")
-                        temporary = self.config[f'{i}']
+                        print("主框架：{}".format(i))
+                        temporary = self.config[i]
 
                         for k in temporary:
                             temporary_dict[k] = self.config[i][k]
-                            print(f'---{k} = {self.config[i][k]}')
+                            print('---{} = {}'.format(k, self.config[i][k]))
 
                 else:
-                    print(f'主框架：{i}')
+                    print('主框架：{}'.format(i))
 
         else:
 
             assign_master = self.config[master]
             for i in assign_master:
                 temporary_dict[i] = self.config[master][i]
-
 
         return temporary_dict
 
@@ -83,19 +82,16 @@ class Colony_Frame_Auto():
         if change_name is None:
             pass
         else:
+            change_name = tuple(change_name)
             if isinstance(change_name, Iterable):
 
                 if self.config.has_section(change_name[0]) is True:
                     temporary = {}
-                    print(f'\n变更请求：{change_name[0]}')
+                    print('\n变更请求：{}'.format(change_name[0]))
 
                     for i in self.config[change_name[0]]:
                         temporary[i] = self.config[change_name[0]][i]
-
-                        try:
-                            print(f'---选项{i}, 参数{self.config[change_name[0]][i]}')
-                        except ParsingError:
-                            print(f'---选项{i}')
+                        print('---选项{}, 参数{}'.format(i, self.config[change_name[0]][i]))
 
                     del self.config[change_name[0]]
 
@@ -105,16 +101,16 @@ class Colony_Frame_Auto():
                     for i in temporary.keys():
                         self.config[change_name[1]][i] = temporary[i]
 
-                    print(f'转移完成！\n当前主架构体：{self.config.sections()}')
+                    print('转移完成！\n当前主架构体：{}'.format(self.config.sections()))
                 else:
 
-                    raise ValueError(f'{change_name[0]}参数并未在配置文件中找到！Error[2]错误！')
+                    raise ValueError('{}参数并未在配置文件中找到！Error[2]错误！'.format(change_name[0]))
 
             else:
 
                 raise ValueError('colony_frame_change_request()方法:\n\t参数change_name需要提供一个可迭代对象！Error[1]错误！')
 
-    def colony_customized(self, frame_master, frame_slave, a=None, b=None, c=None):
+    def colony_customized(self, frame_master, frame_slave):
         """
         colony_customized()方法，为conf文件提供可添加的选项，配合colony_customized_create()方法，
         定制化批量部署架构服务
@@ -122,6 +118,7 @@ class Colony_Frame_Auto():
         :param frame_slave: 主框架-子项建立
         """
         # self.config[]
+        pass
 
     def colony_frame_info(self, fb=None):
 
@@ -132,7 +129,7 @@ class Colony_Frame_Auto():
         if fb is None:
             self.config.write(open('EPC-simple.conf', 'w+'))
         else:
-            self.config.write(open(f'{fb}', 'w+'))
+            self.config.write(open(fb, 'w+'))
 
 
 if __name__ == '__main__':
