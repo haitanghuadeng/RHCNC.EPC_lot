@@ -5,14 +5,11 @@ import tornado.ioloop
 import tornado.web
 import tornado.httpserver
 import tornado.options
-import EPC_lot.EMQ_monitoring as epc
+import EMQ_monitoring as epc
 from tornado.options import define, options
 from tornado.web import RequestHandler
 
 define('port', default=80, help=' Run Help!', type=int)
-hostname = '127.0.0.1'
-username = None
-password = None
 
 
 class MainHandler(RequestHandler):
@@ -27,14 +24,14 @@ class ApacheHandler(RequestHandler):
     def get(self):
         epcssh = epc.EpcSsh()
         ip = epcssh.conf_read()
-        server_info = epcssh.epc_ssh(hostname=ip, username=None, password=None)
+        server_info = epcssh.epc_ssh(hostname=ip, username='root', password='1234.com')
         epcssh.epc_close()
         self.render('Apache.html', server_info=server_info)
 
     def post(self, *args, **kwargs):
         epcssh = epc.EpcSsh()
         ip = epcssh.conf_read()
-        server_info = epcssh.epc_ssh(hostname=ip, username=None, password=None)
+        server_info = epcssh.epc_ssh(hostname=ip, username='root', password='1234.com')
         epcssh.epc_close()
         self.render('Apache.html', server_info=server_info)
 
