@@ -1,9 +1,10 @@
 # -*- coding:utf-8 -*-
 
 
+import time
 import random
 import paho.mqtt.client as mqtt
-import EPC_lot.auto_read_conf as epc
+import auto_read_conf as epc
 
 
 def conf_read():
@@ -14,16 +15,23 @@ def conf_read():
     return [list_body['info_server_ip'], int(list_body['info_server_port'])]
 
 
-def test(HOST, PORT):
+def test(host, port):
     client = mqtt.Client()
-    client.connect(HOST, PORT, 60)
-    analog_number = random.randint(1, 10)
-    client.publish("server", f"hello 模拟测试{analog_number}", 0)
-    print("server", f"hello 模拟测试{analog_number}", 0)
+    client.connect(host, port, 60)
+
+    # temperature sensor 温度传感器
+    # humidity sensor 湿度传感器
+
+    analog_temperature = random.randint(10, 35)
+    analog_humidity = round(random.uniform(0, 1), 2)
+    time.sleep(1)
+    client.publish("server", "from T:{}C H:{}%".format(analog_temperature, analog_humidity*100))
+
+    print("server", "from T:{}C H:{}%".format(analog_temperature, str(analog_humidity*100)[:2]), 0)
     # client.loop_forever() 阻塞则使用该方法
 
 
 if __name__ == '__main__':
     conf_list = conf_read()
-    for i in range(7):
+    while 1:
         test(conf_list[0], conf_list[1])
